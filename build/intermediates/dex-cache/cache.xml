@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="D:\android\.android\build-cache\dd11869a971d92dede20aa897414bc2a12f8e562\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="70f23cb87278f89aa51e6f57e8f0fd5266572d95">
+        <dex dex="D:\projekty\android studio workspace\LandscapeView\app\build\intermediates\pre-dexed\debug\classes_70ee9fc4cd3a42ca56bdd5c1cb354cf8daa79de4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\android\.android\build-cache\d8e5b2120af65c1d285ee7836cec606b765c7a2e\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="425c7b17887e5c3f8cbdf67ba171bc246f29b42c">
+        <dex dex="D:\projekty\android studio workspace\LandscapeView\app\build\intermediates\pre-dexed\debug\classes_4fb68ffd0e11b4db5e0e83ea8b449a7ef8edd080.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\android\.android\build-cache\5c3045574cd15f0d00e521d9858ea577e3d735ab\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4b746ef0fd46acb5aaf3d9ab9a4cec22c28d3211">
+        <dex dex="D:\projekty\android studio workspace\LandscapeView\app\build\intermediates\pre-dexed\debug\classes_d4373aca617305688c1c7cdaefb3abfa3ec4f458.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\android\.android\build-cache\c7a4a0b1aaf669f70d40ff9164cddc9be7e28c41\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d6a04527c17597019dad82777c5094a3d60d1c33">
+        <dex dex="D:\projekty\android studio workspace\LandscapeView\app\build\intermediates\pre-dexed\debug\classes_f05542c2c47ddfffcfcff2a0a151b9c5b44c672f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\android\.android\build-cache\da58e749af2fc16488cb0653a30b086af4f0cb7c\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="518768f3200963fbfec652f498da2c9d39245234">
+        <dex dex="D:\projekty\android studio workspace\LandscapeView\app\build\intermediates\pre-dexed\debug\classes_a3807effbffee5f292ade89d044d4b2ee2d5300b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\android\.android\build-cache\62995cd41b3302303b971115e229b823e6b4fed8\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="93c10d68ab5ea070f15782ae6d3a28d1f1d8f45e">
+        <dex dex="D:\projekty\android studio workspace\LandscapeView\app\build\intermediates\pre-dexed\debug\classes_1e60eef83c29fb6d1ddb8973c95cb8da8897a5c8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\android\.android\build-cache\6297ec4ba0b92b14e4ec3e43d5853ee1e46295c9\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="5cc5ef8347a6bafa14556cbd35230aa9b3431bb0">
+        <dex dex="D:\projekty\android studio workspace\LandscapeView\app\build\intermediates\pre-dexed\debug\classes_fb8a32ec73f4ab7d5f23af2bfa7a4fadf6bd401f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.3.0\support-annotations-25.3.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="dd84903d2e1af25a6081ef9038ad863cb14ca3a0">
+        <dex dex="D:\projekty\android studio workspace\LandscapeView\app\build\intermediates\pre-dexed\debug\support-annotations-25.3.0_c950ec4d36dc0ce01c14ef29e421fc351d1e04cc.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\android\.android\build-cache\679757145f43c08898f7d5b8569fcc905c411d16\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="93c1199fcb0a34b980e6fff8350daff62e696ec2">
+        <dex dex="D:\projekty\android studio workspace\LandscapeView\app\build\intermediates\pre-dexed\debug\classes_3a61f8283de456b065dec351c298a59479f142e0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\android\sdk\extras\m2repository\com\android\support\constraint\constraint-layout-solver\1.0.1\constraint-layout-solver-1.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="1ad79631209e77b0a2730fc112b4cc0c66a95132">
+        <dex dex="D:\projekty\android studio workspace\LandscapeView\app\build\intermediates\pre-dexed\debug\constraint-layout-solver-1.0.1_6ed72967cca5110da27bf943a5c31a9adf20fa32.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\android\.android\build-cache\cbe4222f091fad729fba7f41a500e1ca09cf5a93\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7113302c965566b66df46c6ca75ea301576114a5">
+        <dex dex="D:\projekty\android studio workspace\LandscapeView\app\build\intermediates\pre-dexed\debug\classes_1b3f8312b9003cfdf9ad51e366c2e87bb3dda6be.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\android\.android\build-cache\d694ba5912cbbff81ea8f45c9ffd16217eb37f67\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="D:\projekty\android studio workspace\LandscapeView\app\build\intermediates\pre-dexed\debug\classes_2d56c57d6e2745f02c9bdffcf35a4cc662550d8b.jar" />
+    </item>
+
+</items>
