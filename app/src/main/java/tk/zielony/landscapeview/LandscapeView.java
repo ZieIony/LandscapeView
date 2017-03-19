@@ -84,11 +84,12 @@ public class LandscapeView extends View {
     }
 
     private void generate() {
+        landscapes.clear();
         for (int i = 0; i < planesCount; i++) {
             float height = (float) i * landscapeHeight / (planesCount + 1);
             float fluctuation = (float) (i + 1) * landscapeHeight / (planesCount + 1);
-            int color1 = (int) argbEvaluator.evaluate((float) i / planesCount, landscapeColor, fogColor);
-            int color2 = (int) argbEvaluator.evaluate((float) (i + 1) / planesCount, landscapeColor, fogColor);
+            int color1 = argbEvaluator.evaluate((float) i / planesCount, landscapeColor, fogColor);
+            int color2 = argbEvaluator.evaluate((float) (i + 1) / planesCount, landscapeColor, fogColor);
             landscapes.add(0, new Landscape(color1, color2, height, fluctuation, (float) (planesCount - i) / planesCount));
         }
 
@@ -133,6 +134,78 @@ public class LandscapeView extends View {
 
     private int getMaximumHeight() {
         return ((View) getParent()).getHeight();
+    }
+
+    public boolean isDrawStars() {
+        return drawStars;
+    }
+
+    public void setDrawStars(boolean drawStars) {
+        this.drawStars = drawStars;
+    }
+
+    public boolean isDrawSun() {
+        return drawSun;
+    }
+
+    public void setDrawSun(boolean drawSun) {
+        this.drawSun = drawSun;
+    }
+
+    public int getStarColor() {
+        return starColor;
+    }
+
+    public void setStarColor(int starColor) {
+        this.starColor = starColor;
+    }
+
+    public int getSunColor() {
+        return sunColor;
+    }
+
+    public void setSunColor(int sunColor) {
+        this.sunColor = sunColor;
+    }
+
+    public int getSkyColor() {
+        return skyColor;
+    }
+
+    public void setSkyColor(int skyColor) {
+        this.skyColor = skyColor;
+    }
+
+    public int getLandscapeColor() {
+        return landscapeColor;
+    }
+
+    public void setLandscapeColor(int landscapeColor) {
+        this.landscapeColor = landscapeColor;
+    }
+
+    public int getFogColor() {
+        return fogColor;
+    }
+
+    public void setFogColor(int fogColor) {
+        this.fogColor = fogColor;
+    }
+
+    public int getPlanesCount() {
+        return planesCount;
+    }
+
+    public void setPlanesCount(int planesCount) {
+        this.planesCount = planesCount;
+    }
+
+    public float getLandscapeHeight() {
+        return landscapeHeight;
+    }
+
+    public void setLandscapeHeight(float landscapeHeight) {
+        this.landscapeHeight = landscapeHeight;
     }
 
     private class Star {
