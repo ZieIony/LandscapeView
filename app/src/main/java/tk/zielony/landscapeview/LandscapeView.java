@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Shader;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -22,10 +21,11 @@ import java.util.Random;
  */
 
 public class LandscapeView extends View {
-    private static final float TREE_RANDOM = 0.6f;
+    public static final float TREE_RANDOM = 0.6f;
+    private static final int MAX_STARS = 50, MIN_STARS = 30;
 
-    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    Random random = new Random();
+    static Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    static Random random = new Random();
     ArgbEvaluator argbEvaluator = new ArgbEvaluator();
 
     List<Landscape> landscapes = new ArrayList<>();
@@ -33,11 +33,15 @@ public class LandscapeView extends View {
 
     List<Star> stars = new ArrayList<>();
 
+    boolean animateWind = true;
+    float wind = 0;
+    float maxWind;
+
     // params
-    boolean drawStars = true, drawSun = true;
-    int starColor = 0x3fffffff, sunColor, skyColor, landscapeColor, fogColor, planesCount;
-    float landscapeHeight;
-    private float padding;
+    boolean drawStars = true, drawSun = true, drawClouds = true;
+    int starColor = 0x3fffffff, sunColor, skyColor, landscapeColor, fogColor, planesCount, cloudColor;
+    float landscapeHeight, skyHeight;
+    public float padding;
 
     public LandscapeView(Context context) {
         super(context);
@@ -61,14 +65,17 @@ public class LandscapeView extends View {
     }
 
     private void init() {
-        sunColor = getResources().getColor(R.color.carbon_teal_50);
-        skyColor = getResources().getColor(R.color.carbon_teal_100);
-        landscapeColor = getResources().getColor(R.color.carbon_blue_900);
-        fogColor = getResources().getColor(R.color.carbon_teal_50);
+        sunColor = getResources().getColor(R.color.landscapeView_sunColor);
+        skyColor = getResources().getColor(R.color.landscapeView_skyColor);
+        landscapeColor = getResources().getColor(R.color.landscapeView_landscapeColor);
+        fogColor = getResources().getColor(R.color.landscapeView_fogColor);
+        cloudColor = getResources().getColor(R.color.landscapeView_cloudColor);
         planesCount = 5;
         starSize = getResources().getDimension(R.dimen.carbon_1dip) * (random.nextInt(16) + 8);
         landscapeHeight = getResources().getDimension(R.dimen.carbon_1dip) * 100;
+        skyHeight = getResources().getDimension(R.dimen.carbon_1dip) * 100;
         padding = getResources().getDimension(R.dimen.carbon_padding);
+        maxWind = getResources().getDimension(R.dimen.carbon_1dip) * 8;
     }
 
     @Override
@@ -90,19 +97,19 @@ public class LandscapeView extends View {
             float fluctuation = (float) (i + 1) * landscapeHeight / (planesCount + 1);
             int color1 = argbEvaluator.evaluate((float) i / planesCount, landscapeColor, fogColor);
             int color2 = argbEvaluator.evaluate((float) (i + 1) / planesCount, landscapeColor, fogColor);
-            landscapes.add(0, new Landscape(color1, color2, height, fluctuation, (float) (planesCount - i) / planesCount));
+            landscapes.add(0, new Landscape(this, color1, color2, height, fluctuation, (float) (planesCount - i) / planesCount));
         }
 
         if (drawSun) {
             starX = random.nextInt((int) (getWidth() - padding * 2 - starSize)) + starSize * 0.5f + padding;
-            starY = random.nextInt((int) ((getMaximumHeight() - landscapeHeight) / 2 - padding * 2 - starSize)) + starSize * 0.5f + padding;
+            starY = random.nextInt((int) (skyHeight- padding - starSize)) + starSize * 0.5f + padding;
         }
 
         if (drawStars) {
             stars.clear();
-            int starCount = random.nextInt(50);
+            int starCount = random.nextInt(MAX_STARS - MIN_STARS) + MIN_STARS;
             for (int i = 0; i < starCount; i++)
-                stars.add(new Star(random.nextInt(getWidth()), random.nextInt((int) (getMaximumHeight() - landscapeHeight)), (random.nextInt(2) + 1) * getResources().getDimension(R.dimen.carbon_1dip), starColor));
+                stars.add(new Star(this, random.nextInt(getWidth()), random.nextInt((int) (skyHeight)), (random.nextInt(2) + 1) * getResources().getDimension(R.dimen.carbon_1dip), starColor));
         }
     }
 
@@ -110,45 +117,58 @@ public class LandscapeView extends View {
     protected void dispatchDraw(@NonNull Canvas canvas) {
         super.dispatchDraw(canvas);
 
+        if (animateWind) {
+            wind += (random.nextFloat() * 2 - 1) * getResources().getDimension(R.dimen.carbon_1dip) / 5;
+            wind = MathUtils.constrain(wind, 0, maxWind);
+        }
+
+        for (Landscape l : landscapes)
+            l.update();
+
         paint.setShader(new LinearGradient(0, getMaximumHeight() - landscapes.get(0).height - landscapes.get(0).fluctuation, 0, 0, fogColor, skyColor, Shader.TileMode.CLAMP));
         canvas.drawPaint(paint);
         paint.setShader(null);
 
-        float translate = -(getMaximumHeight() - getHeight()) / (landscapes.size() - 1);
-        canvas.save();
-        canvas.translate(0, translate);
-        if (drawSun) {
-            paint.setColor(sunColor);
-            canvas.drawCircle(starX, starY, starSize, paint);
+        if (drawStars || drawSun) {
+            float translate = -(getMaximumHeight() - getHeight()) / (landscapes.size() - 1);
+            canvas.save();
+            canvas.translate(0, translate);
+            if (drawSun) {
+                paint.setColor(sunColor);
+                canvas.drawCircle(starX, starY, starSize, paint);
+            }
+            if (drawStars) {
+                for (Star s : stars)
+                    s.draw(canvas);
+            }
+            canvas.restore();
+            paint.setAlpha(255);
         }
-        if (drawStars) {
-            for (Star s : stars)
-                s.draw(canvas);
-        }
-        canvas.restore();
-        paint.setAlpha(255);
 
         for (Landscape l : landscapes)
             l.draw(canvas);
+
+        if (animateWind)
+            postInvalidate();
     }
 
-    private int getMaximumHeight() {
+    public int getMaximumHeight() {
         return ((View) getParent()).getHeight();
     }
 
-    public boolean isDrawStars() {
+    public boolean isDrawStarsEnabled() {
         return drawStars;
     }
 
-    public void setDrawStars(boolean drawStars) {
+    public void setDrawStarsEnabled(boolean drawStars) {
         this.drawStars = drawStars;
     }
 
-    public boolean isDrawSun() {
+    public boolean isDrawSunEnabled() {
         return drawSun;
     }
 
-    public void setDrawSun(boolean drawSun) {
+    public void setDrawSunEnabled(boolean drawSun) {
         this.drawSun = drawSun;
     }
 
@@ -208,96 +228,35 @@ public class LandscapeView extends View {
         this.landscapeHeight = landscapeHeight;
     }
 
-    private class Star {
-        private final float x;
-        private final float y;
-        private final float size;
-        private final int color;
-
-        Star(float x, float y, float size, int color) {
-            this.x = x;
-            this.y = y;
-            this.size = size;
-            this.color = color;
-        }
-
-        void draw(Canvas canvas) {
-            paint.setColor(color);
-            canvas.drawCircle(x, y, size, paint);
-        }
+    public boolean isAnimateWindEnabled() {
+        return animateWind;
     }
 
-    private class Tree {
-        Path path;
-
-        Tree(float x, float y, float size) {
-            size = getMaximumHeight() / (random.nextInt(8) + 12) * size;
-            path = new Path();
-            path.addRect(x - size / 10, y - size / 6, x + size / 10, y + size / 10, Path.Direction.CCW);
-            path.moveTo(x - size / 3, y - size / 6);
-            path.lineTo(x, y - size);
-            path.lineTo(x + size / 3, y - size / 6);
-            path.close();
-        }
-
-        void draw(Canvas canvas) {
-            canvas.drawPath(path, paint);
-        }
+    public void setAnimateWindEnabled(boolean animateWind) {
+        this.animateWind = animateWind;
     }
 
-    private class Landscape {
-        private final int color;
-        private int color2;
-        private float height;
-        private float fluctuation;
-        Path path;
-        List<Tree> trees = new ArrayList<>();
+    public boolean isDrawCloudsEnabled() {
+        return drawClouds;
+    }
 
-        Landscape(int color, int color2, float height, float fluctuation, float scale) {
-            this.color = color;
-            this.color2 = color2;
-            this.height = height;
-            this.fluctuation = fluctuation;
+    public void setDrawCloudsEnabled(boolean drawClouds) {
+        this.drawClouds = drawClouds;
+    }
 
-            path = new Path();
-            path.moveTo(0, getMaximumHeight());
-            path.lineTo(getWidth(), getMaximumHeight());
-            float prevX = getWidth();
-            float prevY = (float) (getMaximumHeight() - height - Math.random() * fluctuation);
-            path.lineTo(prevX, prevY);
-            int widthDiv100 = (int) (getWidth() / (getResources().getDimension(R.dimen.carbon_1dip) * 100));
-            int segments = random.nextInt(widthDiv100) + widthDiv100;
-            for (int i = 0; i <= segments; i++) {
-                float x = getWidth() * (segments - i) / segments;
-                float y = (float) (getMaximumHeight() - height - Math.random() * fluctuation);
-                float x33 = MathUtils.lerp(prevX, x, 0.33f);
-                float x67 = MathUtils.lerp(prevX, x, 0.67f);
-                path.cubicTo(x33, prevY, x67, y, x, y);
-                if (random.nextFloat() > TREE_RANDOM)
-                    trees.add(new Tree(prevX, prevY, scale));
-                if (random.nextFloat() > TREE_RANDOM)
-                    trees.add(new Tree(x33, MathUtils.lerp(prevY, y, 0.33f), scale));
-                if (random.nextFloat() > TREE_RANDOM)
-                    trees.add(new Tree(x67, MathUtils.lerp(prevY, y, 0.67f), scale));
-                if (random.nextFloat() > TREE_RANDOM)
-                    trees.add(new Tree(x, y, scale));
-                prevX = x;
-                prevY = y;
-            }
-            path.close();
-        }
+    public int getCloudColor() {
+        return cloudColor;
+    }
 
-        void draw(Canvas canvas) {
-            float translate = MathUtils.map(0, landscapes.size() - 1, (getMaximumHeight() - getHeight()) / 2.0f, getMaximumHeight() - getHeight(), landscapes.indexOf(this));
-            canvas.save(Canvas.MATRIX_SAVE_FLAG);
-            canvas.translate(0, -translate);
-            paint.setColor(color2);
-            for (Tree t : trees)
-                t.draw(canvas);
-            paint.setShader(new LinearGradient(0, getMaximumHeight() - height, 0, getMaximumHeight() - height - fluctuation, color, color2, Shader.TileMode.CLAMP));
-            canvas.drawPath(path, paint);
-            paint.setShader(null);
-            canvas.restore();
-        }
+    public void setCloudColor(int cloudColor) {
+        this.cloudColor = cloudColor;
+    }
+
+    public float getSkyHeight() {
+        return skyHeight;
+    }
+
+    public void setSkyHeight(float skyHeight) {
+        this.skyHeight = skyHeight;
     }
 }
