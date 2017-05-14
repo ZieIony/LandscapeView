@@ -1,4 +1,4 @@
-package tk.zielony.landscapeview;
+package tk.zielony.landscapeview.test;
 
 import android.content.Context;
 import android.support.annotation.AttrRes;

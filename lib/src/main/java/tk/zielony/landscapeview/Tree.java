@@ -11,19 +11,19 @@ class Tree implements Drawable {
     private final float x;
     private final float y;
     private float size;
-    Path path;
+    private Path path;
 
    public Tree(LandscapeView landscapeView, float x, float y, float size) {
         this.landscapeView = landscapeView;
         this.x = x;
         this.y = y;
-        this.size = landscapeView.getMaximumHeight() / (landscapeView.random.nextInt(8) + 12) * size;
+        this.size = landscapeView.getMaximumHeight() / (LandscapeView.random.nextInt(8) + 12) * size;
         path = new Path();
         update();
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawPath(path, landscapeView.paint);
+        canvas.drawPath(path, LandscapeView.paint);
     }
 
     @Override

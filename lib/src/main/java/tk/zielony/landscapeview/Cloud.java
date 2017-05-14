@@ -9,9 +9,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * Created by Marcin on 2017-03-23.
- */
 class Cloud implements Drawable {
     private static final int MAX_PUFFS = 12, MIN_PUFFS = 8;
     private static final int MAX_PUFF_SIZE = 30;
@@ -39,7 +36,7 @@ class Cloud implements Drawable {
 
     }
 
-    List<Puff> puffs = new ArrayList<>();
+    private List<Puff> puffs = new ArrayList<>();
 
     public Cloud(float x, float y, int color,float scale) {
         this.x = x;

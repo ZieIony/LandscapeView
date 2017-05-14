@@ -1,5 +1,6 @@
 package tk.zielony.landscapeview;
 
+import android.animation.ArgbEvaluator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -15,10 +16,6 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-/**
- * Created by Marcin on 2017-03-18.
- */
 
 public class LandscapeView extends View {
     public static final float TREE_RANDOM = 0.6f;
@@ -71,11 +68,11 @@ public class LandscapeView extends View {
         fogColor = getResources().getColor(R.color.landscapeView_fogColor);
         cloudColor = getResources().getColor(R.color.landscapeView_cloudColor);
         planesCount = 5;
-        starSize = getResources().getDimension(R.dimen.carbon_1dip) * (random.nextInt(16) + 8);
-        landscapeHeight = getResources().getDimension(R.dimen.carbon_1dip) * 100;
-        skyHeight = getResources().getDimension(R.dimen.carbon_1dip) * 100;
-        padding = getResources().getDimension(R.dimen.carbon_padding);
-        maxWind = getResources().getDimension(R.dimen.carbon_1dip) * 8;
+        starSize = getResources().getDimension(R.dimen.landscapeView_1dip) * (random.nextInt(16) + 8);
+        landscapeHeight = getResources().getDimension(R.dimen.landscapeView_1dip) * 100;
+        skyHeight = getResources().getDimension(R.dimen.landscapeView_1dip) * 100;
+        padding = getResources().getDimension(R.dimen.landscapeView_padding);
+        maxWind = getResources().getDimension(R.dimen.landscapeView_1dip) * 8;
     }
 
     @Override
@@ -95,21 +92,21 @@ public class LandscapeView extends View {
         for (int i = 0; i < planesCount; i++) {
             float height = (float) i * landscapeHeight / (planesCount + 1);
             float fluctuation = (float) (i + 1) * landscapeHeight / (planesCount + 1);
-            int color1 = argbEvaluator.evaluate((float) i / planesCount, landscapeColor, fogColor);
-            int color2 = argbEvaluator.evaluate((float) (i + 1) / planesCount, landscapeColor, fogColor);
+            int color1 = (int) argbEvaluator.evaluate((float) i / planesCount, landscapeColor, fogColor);
+            int color2 = (int) argbEvaluator.evaluate((float) (i + 1) / planesCount, landscapeColor, fogColor);
             landscapes.add(0, new Landscape(this, color1, color2, height, fluctuation, (float) (planesCount - i) / planesCount));
         }
 
         if (drawSun) {
             starX = random.nextInt((int) (getWidth() - padding * 2 - starSize)) + starSize * 0.5f + padding;
-            starY = random.nextInt((int) (skyHeight- padding - starSize)) + starSize * 0.5f + padding;
+            starY = random.nextInt((int) (skyHeight - padding - starSize)) + starSize * 0.5f + padding;
         }
 
         if (drawStars) {
             stars.clear();
             int starCount = random.nextInt(MAX_STARS - MIN_STARS) + MIN_STARS;
             for (int i = 0; i < starCount; i++)
-                stars.add(new Star(this, random.nextInt(getWidth()), random.nextInt((int) (skyHeight)), (random.nextInt(2) + 1) * getResources().getDimension(R.dimen.carbon_1dip), starColor));
+                stars.add(new Star(random.nextInt(getWidth()), random.nextInt((int) (skyHeight)), (random.nextInt(2) + 1) * getResources().getDimension(R.dimen.landscapeView_1dip), starColor));
         }
     }
 
@@ -118,7 +115,7 @@ public class LandscapeView extends View {
         super.dispatchDraw(canvas);
 
         if (animateWind) {
-            wind += (random.nextFloat() * 2 - 1) * getResources().getDimension(R.dimen.carbon_1dip) / 5;
+            wind += (random.nextFloat() * 2 - 1) * getResources().getDimension(R.dimen.landscapeView_1dip) / 5;
             wind = MathUtils.constrain(wind, 0, maxWind);
         }
 

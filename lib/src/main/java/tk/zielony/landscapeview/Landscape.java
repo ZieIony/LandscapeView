@@ -8,9 +8,6 @@ import android.graphics.Shader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Marcin on 2017-03-23.
- */
 class Landscape implements Drawable {
     private LandscapeView landscapeView;
 
@@ -21,9 +18,9 @@ class Landscape implements Drawable {
     private int color2;
     public float height;
     public float fluctuation;
-    Path path;
-    List<Tree> trees = new ArrayList<>();
-    List<Cloud> clouds = new ArrayList<>();
+    private Path path;
+    private List<Tree> trees = new ArrayList<>();
+    private List<Cloud> clouds = new ArrayList<>();
 
     Landscape(LandscapeView landscapeView, int color, int color2, float height, float fluctuation, float scale) {
         this.landscapeView = landscapeView;
@@ -39,7 +36,7 @@ class Landscape implements Drawable {
         float prevX = landscapeView.getWidth();
         float prevY = (float) (landscapeView.getMaximumHeight() - height - Math.random() * fluctuation);
         path.lineTo(prevX, prevY);
-        int widthDiv100 = (int) (landscapeView.getWidth() / (landscapeView.getResources().getDimension(R.dimen.carbon_1dip) * 100));
+        int widthDiv100 = (int) (landscapeView.getWidth() / (landscapeView.getResources().getDimension(R.dimen.landscapeView_1dip) * 100));
         int segments = LandscapeView.random.nextInt(widthDiv100) + widthDiv100;
         for (int i = 0; i <= segments; i++) {
             float x = landscapeView.getWidth() * (segments - i) / segments;

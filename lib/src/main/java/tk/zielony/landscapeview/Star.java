@@ -2,18 +2,13 @@ package tk.zielony.landscapeview;
 
 import android.graphics.Canvas;
 
-/**
- * Created by Marcin on 2017-03-23.
- */
 class Star {
-    private LandscapeView landscapeView;
     private final float x;
     private final float y;
     private final float size;
     private final int color;
 
-    Star(LandscapeView landscapeView, float x, float y, float size, int color) {
-        this.landscapeView = landscapeView;
+    Star(float x, float y, float size, int color) {
         this.x = x;
         this.y = y;
         this.size = size;
@@ -21,7 +16,7 @@ class Star {
     }
 
     void draw(Canvas canvas) {
-        landscapeView.paint.setColor(color);
-        canvas.drawCircle(x, y, size, landscapeView.paint);
+        LandscapeView.paint.setColor(color);
+        canvas.drawCircle(x, y, size, LandscapeView.paint);
     }
 }
